@@ -50,4 +50,6 @@ class SensorController:
         raise NotImplementedError
 
 
+sensor_controller = SensorController()
+
 
