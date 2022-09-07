@@ -1,14 +1,14 @@
 import logging
-from apscheduler.schedulers.background import BackgroundScheduler
-from co2 import sensor_controller
+from apscheduler.schedulers.background import BlockingScheduler
+from sensor import sensor_controller
 from typing import Dict, List
 from csv import DictWriter
-
+from config import *
 
 class SensorScheduler:
 
     def __init__(self):
-        self.scheduler = BackgroundScheduler()
+        self.scheduler = BlockingScheduler()
         self.status = False
         self.initiated = False
 
@@ -22,12 +22,12 @@ class SensorScheduler:
 
     def sensor_read_and_publish(self):
         samples = sensor_controller.read_sensors()
-        self.store_samples(samples, 'sample.csv')
+        self.store_samples(samples, SAMPLE_FILE)
         print(samples)
         logging.info(samples)
 
     def create_sensor_job(self):
-        self.scheduler.add_job(self.sensor_read_and_publish, 'interval', seconds=3)
+        self.scheduler.add_job(self.sensor_read_and_publish, 'interval', seconds=SENSOR_READING_INTERVALS_IN_SEC)
 
     def start(self):
         if not self.status:

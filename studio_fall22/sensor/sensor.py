@@ -5,6 +5,7 @@ import board
 import adafruit_tca9548a
 from config import *
 
+
 class Co2Sensor:
     def __init__(self, sensor_tsl, name):
         self.name = name
@@ -51,5 +52,3 @@ class SensorController:
 
 
 sensor_controller = SensorController()
-
-
